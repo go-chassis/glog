@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+var LogLevel Level = 3
+
 const fatalExitCode = 255
 const activeExitCode = 1
 
@@ -15,19 +17,25 @@ func Flush() {
 }
 
 func V(level Level) Verbose {
-	return true
+	return LogLevel >= level
 }
 
 func (v Verbose) Info(args ...interface{}) {
-	log.Print(args...)
+	if v {
+		log.Print(args...)
+	}
 }
 
 func (v Verbose) Infoln(args ...interface{}) {
-	log.Println(args...)
+	if v {
+		log.Println(args...)
+	}
 }
 
 func (v Verbose) Infof(format string, args ...interface{}) {
-	log.Printf(format, args...)
+	if v {
+		log.Printf(format, args...)
+	}
 }
 
 func Info(args ...interface{}) {
